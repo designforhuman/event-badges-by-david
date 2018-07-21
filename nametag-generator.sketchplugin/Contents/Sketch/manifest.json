@@ -1,0 +1,25 @@
+{
+  "name": "Nametag Generator",
+  "description": "Generate nametags from an array of names",
+  "author": "David Lee",
+  "homepage": "https://davidlee.kr/",
+  "version": "0.2.1",
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "Generate",
+      "identifier": "generate-identifier",
+      "script": "generate.js"
+    }
+  ],
+  "menu": {
+    "title": "Nametag Generator",
+    "items": [
+      "generate-identifier"
+    ]
+  },
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com//master/.appcast.xml"
+}
