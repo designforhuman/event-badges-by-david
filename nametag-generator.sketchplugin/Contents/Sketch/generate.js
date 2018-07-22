@@ -100,72 +100,134 @@ var exports =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// NameTag Generator v0.5
-// Designed and Coded by David Lee @DesignSpectrum, @Daylight Design
+// NameTag Generator
 // 26 June, 2018
+// Copyright (c) 2018 David Lee, davidlee.kr
+var sketch = __webpack_require__(/*! sketch/dom */ "sketch/dom");
+
 var document = __webpack_require__(/*! sketch/dom */ "sketch/dom").getSelectedDocument();
 
-var UI = __webpack_require__(/*! sketch/ui */ "sketch/ui");
+var Artboard = __webpack_require__(/*! sketch/dom */ "sketch/dom").Artboard;
+
+var Rectangle = __webpack_require__(/*! sketch/dom */ "sketch/dom").Rectangle;
+
+var Text = __webpack_require__(/*! sketch/dom */ "sketch/dom").Text;
+
+var UI = __webpack_require__(/*! sketch/ui */ "sketch/ui"); // variables
+
+
+var DISTANCE_ARTBOARD = 50;
+var ARTBOARD_NAME = "paper"; // const DISTANCE_NAMETAG = 0;
+
+var selectedLayers = document.selectedLayers;
+var page = document.selectedPage;
+var NumOfArtboards = 1;
+var NumOfNametagsInArtboard = 1;
+var nameIndex = 0;
+var counter = 0;
+var paperWidth = 842;
+var paperHeight = 595; // var file_path = selectFolder();
+// Functions
+
+function createArtboardInPage() {
+  return new Artboard({
+    name: ARTBOARD_NAME + counter++,
+    // name: ARTBOARD_NAME,
+    parent: document.selectedPage,
+    frame: new Rectangle(0, 0, paperWidth, paperHeight)
+  }); // return newArtboard;
+}
+
+function moveSelectedNametagToArtboard(artboard) {
+  selectedLayers.forEach(function (layer) {
+    // calculate how many nametags fit in one artboard (= paper)
+    NumOfNametagsInArtboard = Math.floor(artboard.frame.width / layer.frame.width);
+    var edgeGutters = paperWidth - NumOfNametagsInArtboard * layer.frame.width;
+    layer.parent = artboard;
+    layer.frame.x = artboard.frame.x + edgeGutters / 2;
+    layer.frame.y = artboard.frame.y + paperHeight / 2 - layer.frame.height / 2;
+    return;
+  }); // selectedLayers.clear();
+}
+
+function duplicateNametagInArtboard(artboard) {
+  selectedLayers.forEach(function (layer) {
+    for (var i = 1; i < NumOfNametagsInArtboard; i++) {
+      var dupNametag = layer.duplicate();
+      var rect = dupNametag.frame;
+      rect.x += i * rect.width;
+      dupNametag.frame = rect;
+    }
+
+    return;
+  });
+}
+
+function duplicateArtboard(artboard, number) {
+  for (var i = 1; i < NumOfArtboards; i++) {
+    var dupArtboard = artboard.duplicate();
+    var rect = dupArtboard.frame;
+    rect.x += i * (rect.width + DISTANCE_ARTBOARD);
+    dupArtboard.frame = rect;
+    dupArtboard.name = ARTBOARD_NAME + counter++;
+    dupArtboard.selected = true;
+  }
+}
+
+function changeNames(names) {
+  var namesText = document.getLayersNamed('name'); // for(var i = 0; i < namesText.length; i++) {
+  //   namesText[i].text = names[i];
+  // }
+
+  namesText.forEach(function (name, i) {
+    // name.alignment = Text.Alignment.center;
+    if (i >= names.length) {
+      name.text = "";
+      return;
+    }
+
+    name.text = names[i];
+  });
+}
+
+function exportAsPDF() {
+  selectedLayers.forEach(function (paper) {
+    var options = {
+      formats: 'pdf'
+    };
+    sketch.export(paper, options);
+  }); // selectedLayers.clear();
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (function (context) {
-  var selectedLayers = document.selectedLayers;
-  var selectedCount = selectedLayers.length;
-  var nameIndex = 0;
-  var TOTAL_ARTBOARD = 1;
-  var DISTANCE_ARTBOARD = 50;
-  var DISTANCE_NAMETAG = 0;
+  // test layer type
+  // selectedLayers.map(layer => {
+  //   UI.alert('layer type', layer.name + ' ' + layer.frame)
+  // })
+  if (selectedLayers.length === 1) {
+    // get an array of names from the user
+    var rawNames = UI.getStringFromUser("Insert names here.");
+    var names = rawNames.split("\n"); // create the first artboard in A4 size
+    // -> make it customizable (ie. US Letter size)
 
-  if (selectedCount === 0) {
-    UI.alert('Layer Selection Error', 'Please select one artboard first to copy and generate nametags.'); // var rect = new Rectangle(0, 0, 100, 100)
-  } else if (selectedCount > 1) {
-    UI.alert('Layer Selection Error', 'Please select only one artboard.');
+    var paper = createArtboardInPage(); // move the nametag group to the first artobard
+
+    moveSelectedNametagToArtboard(paper);
+    duplicateNametagInArtboard(paper); // clear the first selection
+
+    selectedLayers.forEach(function (layer) {
+      layer.parent.selected = true;
+      layer.selected = false;
+    }); // duplicate artboards based on the number of names
+
+    NumOfArtboards = Math.ceil(names.length / 3);
+    duplicateArtboard(paper, NumOfArtboards); // change text ('name' layer) for all nametags
+
+    changeNames(names); // export
+
+    exportAsPDF();
   } else {
-    // UI.message(`${selectedCount} layers selected.`)
-    // var result = document.askForUserInput("How many?")
-    // UI.alert(`${result}`, 'hi')
-    // UI.message(artboard)
-    var namesRaw = UI.getStringFromUser("Insert names here.");
-    var names = namesRaw.split("\n"); // log(names.toString())
-
-    TOTAL_ARTBOARD = Math.ceil(names.length / 3); // log('artboard: ' + TOTAL_ARTBOARD)
-    // get the artboard
-
-    selectedLayers.map(function (artboard) {
-      for (var i = 0; i < TOTAL_ARTBOARD; i++) {
-        var dupArtboard = artboard.duplicate();
-        var rect = dupArtboard.frame;
-        rect.x += i * (rect.width + DISTANCE_ARTBOARD);
-        dupArtboard.frame = rect;
-        dupArtboard.layers.map(function (nametag) {
-          for (var j = 0; j < 3; j++) {
-            if (nameIndex > names.length - 1) {
-              nametag.remove();
-              return;
-            } // duplicate
-
-
-            var dupNametag = nametag.duplicate();
-            var rect = dupNametag.frame;
-            rect.x += j * (rect.width + DISTANCE_NAMETAG);
-            dupNametag.frame = rect; // find name layer and replace it
-
-            dupNametag.layers.map(function (layer) {
-              if (layer.name.toLowerCase() == "name") {
-                layer.text = names[nameIndex];
-                nameIndex++;
-                return;
-              }
-            });
-            log("INDEX: " + nameIndex);
-            log("NAMES: " + names.length);
-          }
-
-          nametag.remove();
-        });
-      }
-
-      artboard.remove();
-    });
+    UI.alert('Selection Error', 'Please select an origin layer group to duplicate.');
   }
 });
 
