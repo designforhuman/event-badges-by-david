@@ -26,8 +26,6 @@ let counter = 0;
 let paperWidth = 842;
 let paperHeight = 595;
 
-// var file_path = selectFolder();
-
 
 
 
@@ -62,6 +60,8 @@ function duplicateNametagInArtboard(artboard) {
       const rect = dupNametag.frame;
       rect.x += i * rect.width;
       dupNametag.frame = rect;
+      // dupNametag.name = i + '';
+      dupNametag.moveToFront();
     }
     return;
   });
@@ -75,14 +75,16 @@ function duplicateArtboard(artboard, number) {
     dupArtboard.frame = rect;
     dupArtboard.name = ARTBOARD_NAME + counter++;
     dupArtboard.selected = true;
+    dupArtboard.moveToFront();
   }
+}
+
+function addCuttingLines() {
+  // add cutting lines at the edges of nametags
 }
 
 function changeNames(names) {
   var namesText = document.getLayersNamed('name');
-  // for(var i = 0; i < namesText.length; i++) {
-  //   namesText[i].text = names[i];
-  // }
   namesText.forEach((name, i) => {
     // name.alignment = Text.Alignment.center;
     if (i >= names.length) {
@@ -106,9 +108,7 @@ function exportAsPDF() {
 
 
 
-
 export default function(context) {
-
   // test layer type
   // selectedLayers.map(layer => {
   //   UI.alert('layer type', layer.name + ' ' + layer.frame)
@@ -116,7 +116,18 @@ export default function(context) {
 
   if (selectedLayers.length === 1) {
     // get an array of names from the user
-    let rawNames = UI.getStringFromUser("Insert names here.");
+    let rawNames = UI.getStringFromUser("Insert names here.", '');
+
+    if (rawNames == 'null') {
+      //handle cancel button
+      UI.message('Canceled')
+      return;
+    } else if (rawNames == '') {
+      // handle empty input
+      UI.alert('No Input', 'Please enter names.');
+      return;
+    }
+
     const names = rawNames.split("\n");
 
     // create the first artboard in A4 size
