@@ -3,7 +3,7 @@
   "description": "Generate nametags from an array of names",
   "author": "David Lee",
   "homepage": "https://davidlee.kr/",
-  "version": "0.4",
+  "version": "0.49",
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",

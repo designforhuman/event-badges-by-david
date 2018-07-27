@@ -101,24 +101,27 @@ var exports =
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 // NameTag Generator
-// 26 June, 2018
+// 28 July, 2018
 // Copyright (c) 2018 David Lee, davidlee.kr
-var sketch = __webpack_require__(/*! sketch/dom */ "sketch/dom");
+var sketch = __webpack_require__(/*! sketch */ "sketch"); // log(sketch.version.api);
+// log(sketch.version.sketch);
 
-var document = __webpack_require__(/*! sketch/dom */ "sketch/dom").getSelectedDocument();
 
-var Artboard = __webpack_require__(/*! sketch/dom */ "sketch/dom").Artboard;
-
-var Rectangle = __webpack_require__(/*! sketch/dom */ "sketch/dom").Rectangle;
-
-var Text = __webpack_require__(/*! sketch/dom */ "sketch/dom").Text;
+var document = sketch.getSelectedDocument();
+var Artboard = sketch.Artboard;
+var Group = sketch.Group;
+var Shape = sketch.Shape;
+var Rectangle = sketch.Rectangle;
+var Text = sketch.Text;
+var Style = sketch.Style;
 
 var UI = __webpack_require__(/*! sketch/ui */ "sketch/ui"); // variables
 
 
-var DISTANCE_ARTBOARD = 50;
-var ARTBOARD_NAME = "paper"; // const DISTANCE_NAMETAG = 0;
-
+var ARTBOARD_NAME = "paper";
+var ARTBOARD_DISTANCE = 50;
+var CUTTING_LINE_WIDTH = 1;
+var CUTTING_LINE_HEIGHT = 547;
 var selectedLayers = document.selectedLayers;
 var page = document.selectedPage;
 var NumOfArtboards = 1;
@@ -126,15 +129,15 @@ var NumOfNametagsInArtboard = 1;
 var nameIndex = 0;
 var counter = 0;
 var paperWidth = 842;
-var paperHeight = 595; // Functions
+var paperHeight = 595;
+var cuttingLinesX = []; // Functions
 
 function createArtboardInPage() {
   return new Artboard({
     name: ARTBOARD_NAME + counter++,
-    // name: ARTBOARD_NAME,
     parent: document.selectedPage,
     frame: new Rectangle(0, 0, paperWidth, paperHeight)
-  }); // return newArtboard;
+  });
 }
 
 function moveSelectedNametagToArtboard(artboard) {
@@ -151,11 +154,16 @@ function moveSelectedNametagToArtboard(artboard) {
 
 function duplicateNametagInArtboard(artboard) {
   selectedLayers.forEach(function (layer) {
+    cuttingLinesX.push(layer.frame.x - 0.5);
+    cuttingLinesX.push(layer.frame.x + layer.frame.width + 0.5);
+
     for (var i = 1; i < NumOfNametagsInArtboard; i++) {
       var dupNametag = layer.duplicate();
       var rect = dupNametag.frame;
       rect.x += i * rect.width;
-      dupNametag.frame = rect; // dupNametag.name = i + '';
+      dupNametag.frame = rect; // cuttingLinesX.push(rect.x);
+
+      cuttingLinesX.push(rect.x + rect.width - 0.5); // dupNametag.name = i + '';
 
       dupNametag.moveToFront();
     }
@@ -168,7 +176,7 @@ function duplicateArtboard(artboard, number) {
   for (var i = 1; i < NumOfArtboards; i++) {
     var dupArtboard = artboard.duplicate();
     var rect = dupArtboard.frame;
-    rect.x += i * (rect.width + DISTANCE_ARTBOARD);
+    rect.x += i * (rect.width + ARTBOARD_DISTANCE);
     dupArtboard.frame = rect;
     dupArtboard.name = ARTBOARD_NAME + counter++;
     dupArtboard.selected = true;
@@ -176,7 +184,26 @@ function duplicateArtboard(artboard, number) {
   }
 }
 
-function addCuttingLines() {// add cutting lines at the edges of nametags
+function addCuttingLines(artboard, cuttingLinesX) {
+  // make a parent group of cutting lines
+  var cuttingLinesGroup = new Group({
+    parent: artboard,
+    frame: artboard.frame,
+    name: 'cuttingLines'
+  });
+
+  for (var i = 0; i < cuttingLinesX.length; i++) {
+    var cuttingLine = new Shape({
+      parent: cuttingLinesGroup,
+      frame: new Rectangle(cuttingLinesX[i], (artboard.frame.height - CUTTING_LINE_HEIGHT) / 2, CUTTING_LINE_WIDTH, CUTTING_LINE_HEIGHT)
+    });
+    cuttingLine.style.fills = [{
+      color: '#BEBEBE',
+      fillType: Style.FillType.Color
+    }]; // cuttingLine.moveToBack();
+  }
+
+  cuttingLinesGroup.moveToBack();
 }
 
 function changeNames(names) {
@@ -195,6 +222,7 @@ function changeNames(names) {
 function exportAsPDF() {
   selectedLayers.forEach(function (paper) {
     var options = {
+      output: '~/Downloads/Nametags',
       formats: 'pdf'
     };
     sketch.export(paper, options);
@@ -202,31 +230,31 @@ function exportAsPDF() {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (function (context) {
-  // test layer type
-  // selectedLayers.map(layer => {
-  //   UI.alert('layer type', layer.name + ' ' + layer.frame)
-  // })
   if (selectedLayers.length === 1) {
     // get an array of names from the user
     var rawNames = UI.getStringFromUser("Insert names here.", '');
 
     if (rawNames == 'null') {
-      //handle cancel button
+      // handle cancel button
       UI.message('Canceled');
       return;
     } else if (rawNames == '') {
       // handle empty input
       UI.alert('No Input', 'Please enter names.');
       return;
-    }
+    } // split raw names into an array
 
-    var names = rawNames.split("\n"); // create the first artboard in A4 size
-    // -> make it customizable (ie. US Letter size)
+
+    var names = rawNames.split("\n"); // create the first artboard in the current page
+    // -> v0.7 make it customizable (ie. US Letter size)
 
     var paper = createArtboardInPage(); // move the nametag group to the first artobard
 
-    moveSelectedNametagToArtboard(paper);
-    duplicateNametagInArtboard(paper); // clear the first selection
+    moveSelectedNametagToArtboard(paper); // measure the width of the nametag and duplicate as many to fit into the artboard
+
+    duplicateNametagInArtboard(paper); // add cutting lines at the edges of nametags and place at the bottom
+
+    addCuttingLines(paper, cuttingLinesX); // clear the first group selection
 
     selectedLayers.forEach(function (layer) {
       layer.parent.selected = true;
@@ -246,14 +274,14 @@ function exportAsPDF() {
 
 /***/ }),
 
-/***/ "sketch/dom":
-/*!*****************************!*\
-  !*** external "sketch/dom" ***!
-  \*****************************/
+/***/ "sketch":
+/*!*************************!*\
+  !*** external "sketch" ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("sketch/dom");
+module.exports = require("sketch");
 
 /***/ }),
 
