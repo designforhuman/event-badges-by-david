@@ -12,7 +12,7 @@
       "name": "Generate",
       "identifier": "generate-identifier",
       "script": "./generate.js"
-    },
+    }
   ],
   "menu": {
     "title": "Event Badges by David",
