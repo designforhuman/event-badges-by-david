@@ -1,11 +1,11 @@
 <h1 align="center">Event Badges by David</h1>
 <br/>
 <div align="center">
-[Logo]
+  <img src="docs/images/event-badges-illust.jpg" width="300"><br/>
 </div>
 <br/>
 <div align="center">
-<strong>This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events.</strong>
+  <strong>This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events.</strong>
 </div>
 
 <br/>
