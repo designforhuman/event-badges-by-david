@@ -7,17 +7,18 @@
 <div align="center">
 <strong>This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events and conferences.</strong>
 </div>
-<br/>
 
+<br/>
+<br/>
 
 ## Usage
 1. Freely design your name tag in any size in Sketch.
 2. Select a layer where participant's name would fit. And name its layer to _name_.
-! [usage_2] (docs/images/usage_2.png)
+![usage_2](docs/images/usage_2.png)
 3. Execute Plugins → Event Badges by David → Generate
-! [usage_3] (docs/images/usage_3.png)
+![usage_3](docs/images/usage_3.png)
 4. Select the column of names from your spreadsheet and paste into the pop up window.
-! [usage_4] (docs/images/usage_4.png)
+![usage_4](docs/images/usage_4.png)
 5. Done! (Select all artboards and export as PDF.)
 
 <br/>
@@ -33,7 +34,7 @@
 
 ## Documentation
 - Beta Release (v0.6): Coming soon
-- [The First Attempt] (https://medium.com/@designforhuman/designing-for-large-scale-handling-repetitions-with-code-in-sketch-85ef3efa868a)
+- [The First Attempt](https://medium.com/@designforhuman/designing-for-large-scale-handling-repetitions-with-code-in-sketch-85ef3efa868a)
 
 <br/>
 
@@ -53,4 +54,4 @@
 <br/>
 
 ## License
-[MIT] (https://github.com/designforhuman/event-badges-by-david/blob/master/LICENSE)
+[MIT](https://github.com/designforhuman/event-badges-by-david/blob/master/LICENSE)
