@@ -3,7 +3,7 @@
   "description": "Easily duplicate event name tags",
   "author": "David Lee",
   "homepage": "https://davidlee.kr/",
-  "version": "0.5",
+  "version": "0.6",
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",
