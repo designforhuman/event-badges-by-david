@@ -5,21 +5,21 @@
 </div>
 <br/>
 <div align="center">
-<strong width="600">This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events and conferences.</strong>
+<strong max-width="600">This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events.</strong>
 </div>
 
 <br/>
 <br/>
 
 ## Usage
-1. Freely design your name tag in any size in Sketch.
-2. Select a layer where participant's name would fit. And name its layer to _name_.
+1.Freely design your name tag in any size in Sketch.
+2.Select a layer where participant's name would fit. And name its layer to _name_.
   <img src="docs/images/usage_2.png" width="500">
-3. Execute Plugins → Event Badges by David → Generate
+3.Execute Plugins → Event Badges by David → Generate
   <img src="docs/images/usage_3.png" width="400">
-4. Select the column of names from your spreadsheet and paste into the pop up window.
+4.Select the column of names from your spreadsheet and paste into the pop up window.
   <img src="docs/images/usage_4.png" width="200">
-5. Done! (Select all artboards and export as PDF.)
+5.Done! (Select all artboards and export as PDF.)
 
 <br/>
 
