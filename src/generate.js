@@ -1,5 +1,5 @@
-// NameTag Generator
-// 28 July, 2018
+// Event Badges by David
+// 4 August, 2018
 // Copyright (c) 2018 David Lee, davidlee.kr
 
 
@@ -23,6 +23,7 @@ const ARTBOARD_NAME = "paper";
 const ARTBOARD_DISTANCE = 50;
 const CUTTING_LINE_WIDTH = 1;
 const CUTTING_LINE_HEIGHT = 547;
+const Y_THRESHOLD_NUM = 10;
 let selectedLayers = document.selectedLayers;
 let page = document.selectedPage;
 let NumOfArtboards = 1;
@@ -37,7 +38,7 @@ let cuttingLinesX = [];
 
 
 // Functions
-function createArtboardInPage() {
+function createFirstArtboardInPage() {
   return new Artboard({
     name: ARTBOARD_NAME + counter++,
     parent: document.selectedPage,
@@ -67,9 +68,7 @@ function duplicateNametagInArtboard(artboard) {
       const rect = dupNametag.frame;
       rect.x += i * rect.width;
       dupNametag.frame = rect;
-      // cuttingLinesX.push(rect.x);
       cuttingLinesX.push(rect.x + rect.width - 0.5);
-      // dupNametag.name = i + '';
       dupNametag.moveToFront();
     }
     return;
@@ -77,15 +76,23 @@ function duplicateNametagInArtboard(artboard) {
 }
 
 function duplicateArtboard(artboard, number) {
-  for (let i = 1; i < NumOfArtboards; i++) {
+  let j = 0;
+  for (let i = 0; i <= NumOfArtboards; i++) {
     const dupArtboard = artboard.duplicate();
     const rect = dupArtboard.frame;
-    rect.x += i * (rect.width + ARTBOARD_DISTANCE);
+    if (j % Y_THRESHOLD_NUM === 0) {
+      j = 0;
+    }
+    rect.x += j++ * (rect.width + ARTBOARD_DISTANCE);
+    rect.y = Math.floor(i / Y_THRESHOLD_NUM) * (rect.height + ARTBOARD_DISTANCE);
     dupArtboard.frame = rect;
     dupArtboard.name = ARTBOARD_NAME + counter++;
     dupArtboard.selected = true;
     dupArtboard.moveToFront();
   }
+  // remove the first reference artboard
+  let refArtboard = document.getLayersNamed('paper0');
+  refArtboard[0].remove();
 }
 
 function addCuttingLines(artboard, cuttingLinesX) {
@@ -107,9 +114,19 @@ function addCuttingLines(artboard, cuttingLinesX) {
         fillType: Style.FillType.Color,
       },
     ]
-    // cuttingLine.moveToBack();
   }
   cuttingLinesGroup.moveToBack();
+}
+
+function isLayerNameExist() {
+  let namesText = document.getLayersNamed('name');
+  if (namesText == '') {
+    log("Can't find 'name' layer.");
+    // UI.message("Can't find 'name' layer.");
+    UI.alert("No Layer", "Can't find 'name' layer.");
+    return false;
+  }
+  return true;
 }
 
 function changeNames(names) {
@@ -124,28 +141,21 @@ function changeNames(names) {
   });
 }
 
-function exportAsPDF() {
-  selectedLayers.forEach(paper => {
-    const options = {
-      output: '~/Downloads/Nametags',
-      formats: 'pdf',
-    };
-    sketch.export(paper, options);
-  });
-  // selectedLayers.clear();
-}
-
 
 
 
 export default function(context) {
   if (selectedLayers.length === 1) {
+    if (!isLayerNameExist()) {
+      return;
+    }
+
     // get an array of names from the user
     let rawNames = UI.getStringFromUser("Insert names here.", '');
 
     if (rawNames == 'null') {
       // handle cancel button
-      UI.message('Canceled')
+      UI.message('Canceled');
       return;
     } else if (rawNames == '') {
       // handle empty input
@@ -158,7 +168,7 @@ export default function(context) {
 
     // create the first artboard in the current page
     // -> v0.7 make it customizable (ie. US Letter size)
-    let paper = createArtboardInPage();
+    let paper = createFirstArtboardInPage();
 
     // move the nametag group to the first artobard
     moveSelectedNametagToArtboard(paper);
@@ -176,20 +186,15 @@ export default function(context) {
     });
 
     // duplicate artboards based on the number of names
-    NumOfArtboards = Math.ceil(names.length/3);
+    NumOfArtboards = Math.floor((names.length - 1)/3);
     duplicateArtboard(paper, NumOfArtboards);
 
     // change text ('name' layer) for all nametags
     changeNames(names);
 
-    // export
-    exportAsPDF();
-
   } else {
-    UI.alert('Selection Error', 'Please select an origin layer group to duplicate.');
+    UI.alert('Selection Error', 'Select a layer group first to duplicate.');
   }
-
-
 
 
 

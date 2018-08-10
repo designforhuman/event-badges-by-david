@@ -100,8 +100,8 @@ var exports =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// NameTag Generator
-// 28 July, 2018
+// Event Badges by David
+// 4 August, 2018
 // Copyright (c) 2018 David Lee, davidlee.kr
 var sketch = __webpack_require__(/*! sketch */ "sketch"); // log(sketch.version.api);
 // log(sketch.version.sketch);
@@ -122,6 +122,7 @@ var ARTBOARD_NAME = "paper";
 var ARTBOARD_DISTANCE = 50;
 var CUTTING_LINE_WIDTH = 1;
 var CUTTING_LINE_HEIGHT = 547;
+var Y_THRESHOLD_NUM = 10;
 var selectedLayers = document.selectedLayers;
 var page = document.selectedPage;
 var NumOfArtboards = 1;
@@ -132,7 +133,7 @@ var paperWidth = 842;
 var paperHeight = 595;
 var cuttingLinesX = []; // Functions
 
-function createArtboardInPage() {
+function createFirstArtboardInPage() {
   return new Artboard({
     name: ARTBOARD_NAME + counter++,
     parent: document.selectedPage,
@@ -161,10 +162,8 @@ function duplicateNametagInArtboard(artboard) {
       var dupNametag = layer.duplicate();
       var rect = dupNametag.frame;
       rect.x += i * rect.width;
-      dupNametag.frame = rect; // cuttingLinesX.push(rect.x);
-
-      cuttingLinesX.push(rect.x + rect.width - 0.5); // dupNametag.name = i + '';
-
+      dupNametag.frame = rect;
+      cuttingLinesX.push(rect.x + rect.width - 0.5);
       dupNametag.moveToFront();
     }
 
@@ -173,15 +172,27 @@ function duplicateNametagInArtboard(artboard) {
 }
 
 function duplicateArtboard(artboard, number) {
-  for (var i = 1; i < NumOfArtboards; i++) {
+  var j = 0;
+
+  for (var i = 0; i <= NumOfArtboards; i++) {
     var dupArtboard = artboard.duplicate();
     var rect = dupArtboard.frame;
-    rect.x += i * (rect.width + ARTBOARD_DISTANCE);
+
+    if (j % Y_THRESHOLD_NUM === 0) {
+      j = 0;
+    }
+
+    rect.x += j++ * (rect.width + ARTBOARD_DISTANCE);
+    rect.y = Math.floor(i / Y_THRESHOLD_NUM) * (rect.height + ARTBOARD_DISTANCE);
     dupArtboard.frame = rect;
     dupArtboard.name = ARTBOARD_NAME + counter++;
     dupArtboard.selected = true;
     dupArtboard.moveToFront();
-  }
+  } // remove the first reference artboard
+
+
+  var refArtboard = document.getLayersNamed('paper0');
+  refArtboard[0].remove();
 }
 
 function addCuttingLines(artboard, cuttingLinesX) {
@@ -200,10 +211,23 @@ function addCuttingLines(artboard, cuttingLinesX) {
     cuttingLine.style.fills = [{
       color: '#BEBEBE',
       fillType: Style.FillType.Color
-    }]; // cuttingLine.moveToBack();
+    }];
   }
 
   cuttingLinesGroup.moveToBack();
+}
+
+function isLayerNameExist() {
+  var namesText = document.getLayersNamed('name');
+
+  if (namesText == '') {
+    log("Can't find 'name' layer."); // UI.message("Can't find 'name' layer.");
+
+    UI.alert("No Layer", "Can't find 'name' layer.");
+    return false;
+  }
+
+  return true;
 }
 
 function changeNames(names) {
@@ -219,19 +243,13 @@ function changeNames(names) {
   });
 }
 
-function exportAsPDF() {
-  selectedLayers.forEach(function (paper) {
-    var options = {
-      output: '~/Downloads/Nametags',
-      formats: 'pdf'
-    };
-    sketch.export(paper, options);
-  }); // selectedLayers.clear();
-}
-
 /* harmony default export */ __webpack_exports__["default"] = (function (context) {
   if (selectedLayers.length === 1) {
-    // get an array of names from the user
+    if (!isLayerNameExist()) {
+      return;
+    } // get an array of names from the user
+
+
     var rawNames = UI.getStringFromUser("Insert names here.", '');
 
     if (rawNames == 'null') {
@@ -248,7 +266,7 @@ function exportAsPDF() {
     var names = rawNames.split("\n"); // create the first artboard in the current page
     // -> v0.7 make it customizable (ie. US Letter size)
 
-    var paper = createArtboardInPage(); // move the nametag group to the first artobard
+    var paper = createFirstArtboardInPage(); // move the nametag group to the first artobard
 
     moveSelectedNametagToArtboard(paper); // measure the width of the nametag and duplicate as many to fit into the artboard
 
@@ -261,14 +279,12 @@ function exportAsPDF() {
       layer.selected = false;
     }); // duplicate artboards based on the number of names
 
-    NumOfArtboards = Math.ceil(names.length / 3);
+    NumOfArtboards = Math.floor((names.length - 1) / 3);
     duplicateArtboard(paper, NumOfArtboards); // change text ('name' layer) for all nametags
 
-    changeNames(names); // export
-
-    exportAsPDF();
+    changeNames(names);
   } else {
-    UI.alert('Selection Error', 'Please select an origin layer group to duplicate.');
+    UI.alert('Selection Error', 'Select a layer group first to duplicate.');
   }
 });
 

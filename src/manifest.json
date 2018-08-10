@@ -1,9 +1,9 @@
 {
-  "name": "Nametag Generator",
-  "description": "Generate nametags from an array of names",
+  "name": "Event Badges by David",
+  "description": "Easily duplicate event name tags",
   "author": "David Lee",
   "homepage": "https://davidlee.kr/",
-  "version": "0.49",
+  "version": "0.5",
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",
@@ -12,10 +12,10 @@
       "name": "Generate",
       "identifier": "generate-identifier",
       "script": "./generate.js"
-    }
+    },
   ],
   "menu": {
-    "title": "Nametag Generator",
+    "title": "Event Badges by David",
     "items": [
       "generate-identifier"
     ]

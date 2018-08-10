@@ -1,93 +1,51 @@
-# nametag-generator
+<h1 align="center">Event Badges by David</h1>
+<br/>
+<div align="center">
+[Logo]
+</div>
+<br/>
+<div align="center">
+<strong>This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events and conferences.</strong>
+</div>
 
-_This plugin was created using `skpm`. For a detailed explanation on how things work, checkout the [skpm Readme](https://github.com/skpm/skpm/blob/master/README.md)._
 
 ## Usage
+1. Freely design your name tag in any size in Sketch.
+2. Select a layer where participant's name would fit. And name its layer to _name_.
+  - The plugin finds all text layer named 'name'.
+! [usage_2] (https://github.com/designforhuman/event-badges-by-david/blob/master/src/usage_2.png)
+3. Execute Plugins → Event Badges by David → Generate
+! [usage_3] (https://github.com/designforhuman/event-badges-by-david/blob/master/src/usage_3.png)
+4. Select the column of names from your spreadsheet and paste into the pop up window.
+! [usage_4] (https://github.com/designforhuman/event-badges-by-david/blob/master/src/usage_4.png)
+5. Done! (Select all artboards and export as PDF.)
 
-Install the dependencies
 
-```bash
-npm install
-```
+## Features
+- It _copies_ an initial name tag you designed _as many as the number of participants_.
+  - You can copy and paste an array of names from any spreadsheet software.
+- It places the right number of name tags into _A4 size_ artboards (usually 2-3) to work with any printer.
+  - Choosing other paper size options is not available yet. (ie. Letter)
+- It generates _vertical lines_ in subtle grey along the edges of name tags for you to cut easily.
 
-Once the installation is done, you can run some commands inside the project folder:
 
-```bash
-npm run build
-```
+## Documentation
+- Beta Release (v0.6): Coming soon
+- [The First Attempt] (https://medium.com/@designforhuman/designing-for-large-scale-handling-repetitions-with-code-in-sketch-85ef3efa868a)
 
-To watch for changes:
 
-```bash
-npm run watch
-```
+## installation
+1. Download the latest release of the plugin
+2. Un-zip
+3. Double-click on event-badges-by-david.sketchplugin
 
-Additionally, if you wish to run the plugin every time it is built:
 
-```bash
-npm run start
-```
+## Contributing
+- You are very welcome to contribute to this project.
+  - ⇄ Pull requests and ★ Stars are always welcome.
+- You can also send me an email if you are not familiar with Git.
+  - designforhuman@gmail.com
 
-## Custom Configuration
 
-### Babel
-
-To customize Babel, you have two options:
-
-* You may create a [`.babelrc`](https://babeljs.io/docs/usage/babelrc) file in your project's root directory. Any settings you define here will overwrite matching config-keys within skpm preset. For example, if you pass a "presets" object, it will replace & reset all Babel presets that skpm defaults to.
-
-* If you'd like to modify or add to the existing Babel config, you must use a `webpack.skpm.config.js` file. Visit the [Webpack](#webpack) section for more info.
-
-### Webpack
-
-To customize webpack create `webpack.skpm.config.js` file which exports function that will change webpack's config.
-
-```js
-/**
- * Function that mutates original webpack config.
- * Supports asynchronous changes when promise is returned.
- *
- * @param {object} config - original webpack config.
- * @param {boolean} isPluginCommand - whether the config is for a plugin command or a resource
- **/
-module.exports = function(config, isPluginCommand) {
-  /** you can change config here **/
-}
-```
-
-## Debugging
-
-To view the output of your `console.log`, you have a few different options:
-
-* Use the [`sketch-dev-tools`](https://github.com/skpm/sketch-dev-tools)
-* Open `Console.app` and look for the sketch logs
-* Look at the `~/Library/Logs/com.bohemiancoding.sketch3/Plugin Output.log` file
-
-Skpm provides a convenient way to do the latter:
-
-```bash
-skpm log
-```
-
-The `-f` option causes `skpm log` to not stop when the end of logs is reached, but rather to wait for additional data to be appended to the input
-
-## Publishing your plugin
-
-```bash
-skpm publish <bump>
-```
-
-(where `bump` can be `patch`, `minor` or `major`)
-
-`skpm publish` will create a new release on your GitHub repository and create an appcast file in order for Sketch users to be notified of the update.
-
-You will need to specify a `repository` in the `package.json`:
-
-```diff
-...
-+ "repository" : {
-+   "type": "git",
-+   "url": "git+https://github.com/ORG/NAME.git"
-+  }
-...
-```
+## License
+[MIT] (https://github.com/designforhuman/event-badges-by-david/blob/master/LICENSE.md)

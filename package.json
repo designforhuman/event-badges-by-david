@@ -1,13 +1,13 @@
 {
-  "name": "nametag-generator",
+  "name": "event-badges-by-david",
   "version": "0.1.0",
   "engines": {
     "sketch": ">=3.0"
   },
   "skpm": {
-    "name": "nametag-generator",
+    "name": "event-badges-by-david",
     "manifest": "src/manifest.json",
-    "main": "nametag-generator.sketchplugin",
+    "main": "event-badges-by-david.sketchplugin",
     "assets": [
       "assets/**/*"
     ]
