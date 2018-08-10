@@ -16,9 +16,9 @@
 2. Select a layer where participant's name would fit. And name its layer to _name_.
 <img src="docs/images/usage_2.png" width="500">
 3. Execute Plugins → Event Badges by David → Generate
-![usage_3](docs/images/usage_3.png)
+<img src="docs/images/usage_3.png" width="500">
 4. Select the column of names from your spreadsheet and paste into the pop up window.
-![usage_4](docs/images/usage_4.png)
+<img src="docs/images/usage_4.png" width="500">
 5. Done! (Select all artboards and export as PDF.)
 
 <br/>
