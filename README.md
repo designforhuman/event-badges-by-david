@@ -14,7 +14,7 @@
 ## Usage
 1. Freely design your name tag in any size in Sketch.
 2. Select a layer where participant's name would fit. And name its layer to _name_.
-<img src="docs/images/usage_2.png" width="200">
+<img src="docs/images/usage_2.png" width="500">
 3. Execute Plugins → Event Badges by David → Generate
 ![usage_3](docs/images/usage_3.png)
 4. Select the column of names from your spreadsheet and paste into the pop up window.
