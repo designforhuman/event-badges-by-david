@@ -5,7 +5,7 @@
 </div>
 <br/>
 <div align="center">
-  <strong>This is a Sketch plugin that makes your life easier to make large quantity of name tags for any kind of events.</strong>
+  <strong>This is a Sketch plugin that makes your life easier to make a large quantity of name tags for any kind of events.</strong>
 </div>
 
 <br/>

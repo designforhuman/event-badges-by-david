@@ -1,6 +1,7 @@
 {
   "name": "event-badges-by-david",
   "version": "0.1.0",
+  "description": "A Sketch plugin to make a large quantity of name tags for any kind of events.",
   "engines": {
     "sketch": ">=3.0"
   },
@@ -11,6 +12,10 @@
     "assets": [
       "assets/**/*"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/designforhuman/event-badges-by-david.git"
   },
   "scripts": {
     "build": "skpm-build",
