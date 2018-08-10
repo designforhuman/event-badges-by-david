@@ -5,7 +5,7 @@
   "homepage": "https://davidlee.kr/",
   "version": "0.6",
   "compatibleVersion": 3,
-  "bundleVersion": 1,
+  "bundleVersion": 0.6,
   "icon": "icon.png",
   "commands": [
     {
