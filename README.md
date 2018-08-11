@@ -13,12 +13,11 @@
 
 ## Usage
 1.Freely design your name tag in any size in Sketch.<br/>
-2.Select a layer where participant's name would fit. And name its layer to _name_.<br/>
+2.Select a layer where a participant's name would fit. And set its layer's name to _name_.<br/>
   <img src="docs/images/usage_02.png" width="540"><br/>
 3.Execute Plugins → Event Badges by David → Generate<br/>
-(Don't be bothered by _Export_ option in the image. It's a coming feature.)<br/>
   <img src="docs/images/usage_03.png" width="450"><br/>
-4.Select the column of names from your spreadsheet and paste into the pop up window in Sketch.<br/>
+4.Select a column of names from your spreadsheet and paste into the pop up window in Sketch.<br/>
   <img src="docs/images/usage_04.png" width="200"><br/>
 5.Done! (Select all artboards and export as PDF.)
 
