@@ -20,7 +20,7 @@
 4.Select a column of names from your spreadsheet and paste into the pop up window in Sketch.<br/>
   <img src="docs/images/usage_04_1.png" width="160"><br/>
   <img src="docs/images/usage_04_2.png" width="500"><br/>
-5.Done! (Select all artboards and export as PDF.)<br/>
+5.Done! (Export selected artboards as PDF.)<br/>
   <img src="docs/images/usage_05.png"><br/>
 
 <br/>
