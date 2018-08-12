@@ -18,8 +18,10 @@
 3.Execute Plugins → Event Badges by David → Generate<br/>
   <img src="docs/images/usage_03.png" width="450"><br/>
 4.Select a column of names from your spreadsheet and paste into the pop up window in Sketch.<br/>
-  <img src="docs/images/usage_04.png" width="200"><br/>
-5.Done! (Select all artboards and export as PDF.)
+  <img src="docs/images/usage_04_1.png" width="200"><br/>
+  <img src="docs/images/usage_04_2.png" width="450"><br/>
+5.Done! (Select all artboards and export as PDF.)<br/>
+  <img src="docs/images/usage_05.png"><br/>
 
 <br/>
 
