@@ -40,7 +40,7 @@
 
 <br/>
 
-## installation
+## Installation
 1. [Download](https://github.com/designforhuman/event-badges-by-david/releases/latest) the latest release of the plugin
 2. Un-zip
 3. Double-click on event-badges-by-david.sketchplugin
