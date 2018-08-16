@@ -8,6 +8,7 @@ const sketch = require('sketch');
 // log(sketch.version.api);
 // log(sketch.version.sketch);
 const document = sketch.getSelectedDocument();
+const Page = sketch.Page;
 const Artboard = sketch.Artboard;
 const Group = sketch.Group;
 const Shape = sketch.Shape;
@@ -121,8 +122,6 @@ function addCuttingLines(artboard, cuttingLinesX) {
 function isLayerNameExist() {
   let namesText = document.getLayersNamed('name');
   if (namesText == '') {
-    log("Can't find 'name' layer.");
-    // UI.message("Can't find 'name' layer.");
     UI.alert("No Layer", "Can't find 'name' layer.");
     return false;
   }
@@ -186,7 +185,7 @@ export default function(context) {
     });
 
     // duplicate artboards based on the number of names
-    NumOfArtboards = Math.floor((names.length - 1)/3);
+    NumOfArtboards = Math.floor((names.length - 1) / NumOfNametagsInArtboard);
     duplicateArtboard(paper, NumOfArtboards);
 
     // change text ('name' layer) for all nametags
