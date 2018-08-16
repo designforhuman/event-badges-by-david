@@ -1,6 +1,6 @@
 {
   "name": "event-badges-by-david",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A Sketch plugin to make a large quantity of name tags for any kind of events",
   "engines": {
     "sketch": ">=3.0"
