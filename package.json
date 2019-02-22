@@ -1,5 +1,6 @@
 {
   "name": "event-badges-by-david",
+  "version": "0.7.8",
   "description": "Make a large quantity of name tags for any kind of events",
   "engines": {
     "sketch": ">=3.0"
@@ -38,6 +39,5 @@
   "keywords": [
     "sketch"
   ],
-  "license": "MIT",
-  "version": "1.0.1"
+  "license": "MIT"
 }
