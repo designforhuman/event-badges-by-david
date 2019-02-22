@@ -1,6 +1,6 @@
 {
   "name": "event-badges-by-david",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "Make a large quantity of name tags for any kind of events",
   "engines": {
     "sketch": ">=3.0"
