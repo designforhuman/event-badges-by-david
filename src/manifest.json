@@ -3,7 +3,7 @@
   "description": "Easily duplicate event name tags",
   "author": "David Lee",
   "homepage": "https://github.com/designforhuman/event-badges-by-david#readme",
-  "version": "0.7.3",
+  "version": "0.7.5",
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",
