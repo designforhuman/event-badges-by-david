@@ -1,7 +1,7 @@
 <h1 align="center">Event Badges by David</h1>
 <br/>
 <div align="center">
-  <img src="docs/images/event-badges-illust.png" width="600"><br/>
+  <img src="docs/images/coverimage.png" width="600"><br/>
 </div>
 <br/>
 <div align="center">
