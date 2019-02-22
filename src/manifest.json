@@ -1,0 +1,23 @@
+{
+  "name": "Event Badges by David",
+  "description": "Easily duplicate event name tags",
+  "author": "David Lee",
+  "homepage": "https://davidlee.kr/",
+  "version": "0.6.3",
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "generate",
+      "identifier": "event-badges-by-david.my-command-identifier",
+      "script": "./generate.js"
+    }
+  ],
+  "menu": {
+    "title": "Event Badges by David",
+    "items": [
+      "event-badges-by-david.my-command-identifier"
+    ]
+  }
+}
